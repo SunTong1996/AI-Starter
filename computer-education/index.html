@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>认识自己的计算机 - 硬件知识讲座</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="style.css" rel="stylesheet">
+    <!-- 配置Tailwind自定义主题 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4a6fa5',     // 深蓝作为主色调
+                        secondary: '#6b8cce',   // 浅蓝作为辅助色
+                        accent: '#ec4899',      // 粉色作为强调色
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-custom {
+                transition: all 0.3s ease;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+        }
+        
+        /* 导航栏滚动效果 */
+        #navbar.scrolled {
+            background-color: rgba(15, 23, 42, 0.98) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+            border-bottom: 1px solid #475569 !important;
+        }
+        
+        /* 导航链接悬停效果 */
+        nav a {
+            position: relative;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #3b82f6);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* 移动端菜单动画 */
+        #mobile-menu {
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        #mobile-menu:not(.hidden) {
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body class="bg-light text-dark font-sans">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center bg-slate-900 backdrop-blur-md shadow-lg border-b border-slate-700" style="background-color: rgba(15, 23, 42, 0.95);">
+            <a href="#" class="flex items-center gap-2 text-2xl font-bold text-white">
+                <i class="fa fa-desktop text-blue-400"></i>
+                <span>认识计算机</span>
+            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#classification" class="font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">计算机分类</a>
+                <a href="#components" class="font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">主要配件</a>
+                <a href="#cpu-gpu" class="font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">CPU与GPU</a>
+                <a href="#tools" class="font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">硬件工具</a>
+                <a href="#practice" class="font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">互动实践</a>
+            </div>
+            <button id="menu-toggle" class="md:hidden text-slate-300 hover:text-blue-400 focus:outline-none transition-colors duration-300">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </nav>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-800 border-t border-slate-700" style="background-color: #1e293b;">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="#classification" class="block font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">计算机分类</a>
+                <a href="#components" class="block font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">主要配件</a>
+                <a href="#cpu-gpu" class="block font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">CPU与GPU</a>
+                <a href="#tools" class="block font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">硬件工具</a>
+                <a href="#practice" class="block font-medium text-slate-300 hover:text-blue-400 transition-colors duration-300">互动实践</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section id="intro" class="pt-28 pb-16 md:pt-36 md:pb-24 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
+                <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-dark mb-6">
+                    认识自己的
+                    <span class="text-primary">计算机</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl">
+                    帮助大学生更好地了解计算机硬件和配置，掌握计算机基础知识，提升数字素养。
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#classification" class="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                        开始学习
+                    </a>
+                    <a href="#practice" class="bg-white hover:bg-gray-50 text-primary border border-primary font-medium px-6 py-3 rounded-lg shadow hover:shadow-md transition-all">
+                        互动实践
+                    </a>
+                </div>
+                <div class="mt-16 flex flex-wrap justify-center gap-8 max-w-3xl">
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                            <i class="fa fa-microchip text-2xl"></i>
+                        </div>
+                        <p class="font-medium">硬件知识</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mb-4">
+                            <i class="fa fa-cogs text-2xl"></i>
+                        </div>
+                        <p class="font-medium">配置优化</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-4">
+                            <i class="fa fa-wrench  text-2xl"></i>
+                        </div>
+                        <p class="font-medium">实用工具</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 计算机分类 -->
+    <section id="classification" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-dark mb-6">计算机的分类</h2>
+                <p class="text-lg text-gray-600">了解不同类型计算机的特点和应用场景</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 个人计算机 -->
+                <div class="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-6 mx-auto">
+                        <i class="fa fa-user text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-center">个人计算机</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-medium text-primary mb-2"><i class="fa fa-desktop mr-2"></i>台式机</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li><i class="fa fa-gamepad mr-2 text-green-500"></i>游戏主机</li>
+                                <li><i class="fa fa-briefcase mr-2 text-blue-500"></i>办公主机</li>
+                                <li><i class="fa fa-tv mr-2 text-purple-500"></i>家用娱乐主机</li>
+                                <li><i class="fa fa-monitor mr-2 text-orange-500"></i>一体机</li>
+                                <li><i class="fa fa-cube mr-2 text-red-500"></i>迷你主机</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-medium text-primary mb-2"><i class="fa fa-laptop mr-2"></i>笔记本电脑</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li><i class="fa fa-cloud mr-2 text-green-500"></i>轻薄本</li>
+                                <li><i class="fa fa-gamepad mr-2 text-blue-500"></i>游戏本</li>
+                                <li><i class="fa fa-briefcase mr-2 text-purple-500"></i>商务本</li>
+                                <li><i class="fa fa-retweet mr-2 text-orange-500"></i>二合一笔记本</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 服务器 -->
+                <div class="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-16 h-16 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary mb-6 mx-auto">
+                        <i class="fa fa-server text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-center">服务器</h3>
+                    <div class="space-y-3">
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-medium text-secondary mb-2"><i class="fa fa-stack mr-2"></i>机架式服务器</h4>
+                            <p class="text-sm text-gray-600">适用于数据中心，高密度部署</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-medium text-secondary mb-2"><i class="fa fa-blade mr-2"></i>刀片式服务器</h4>
+                            <p class="text-sm text-gray-600">模块化设计，节省空间</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-medium text-secondary mb-2"><i class="fa fa-tower mr-2"></i>塔式服务器</h4>
+                            <p class="text-sm text-gray-600">独立机箱，适合小型企业</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 超级计算机 -->
+                <div class="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-16 h-16 rounded-lg bg-accent/10 flex items-center justify-center text-accent mb-6 mx-auto">
+                        <i class="fa fa-superpowers text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-center">超级计算机</h3>
+                    <div class="space-y-3">
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-medium text-accent mb-2"><i class="fa fa-classic mr-2"></i>经典超级计算机</h4>
+                            <p class="text-sm text-gray-600">传统架构，高性能计算</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-medium text-accent mb-2"><i class="fa fa-quantum mr-2"></i>量子超级计算机</h4>
+                            <p class="text-sm text-gray-600">量子计算技术，未来趋势</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主要配件介绍 -->
+    <section id="components" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-dark mb-6">个人计算机的主要配件</h2>
+                <p class="text-lg text-gray-600">深入了解计算机核心硬件组件的功能和特点</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- CPU -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-4">
+                        <i class="fa fa-microchip text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">中央处理器 (CPU)</h3>
+                    <p class="text-gray-600 mb-4">计算机的大脑，负责处理各种指令和运算。</p>
+                    <div class="text-sm text-primary font-medium">
+                        <i class="fa fa-info-circle mr-1"></i>
+                        常见品牌：Intel、AMD
+                    </div>
+                </div>
+                
+                <!-- 内存 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary mb-4">
+                        <i class="fa fa-microchip text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">内存 (RAM)</h3>
+                    <p class="text-gray-600 mb-4">临时存储正在运行的程序和数据，影响系统运行速度。</p>
+                    <div class="text-sm text-secondary font-medium">
+                        <i class="fa fa-info-circle mr-1"></i>
+                        常见类型：DDR4、DDR5
+                    </div>
+                </div>
+                
+                <!-- 硬盘 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center text-accent mb-4">
+                        <i class="fa fa-hdd-o text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">硬盘 (存储设备)</h3>
+                    <div class="space-y-3 mb-4">
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <h4 class="font-medium text-accent mb-1">机械硬盘 (HDD)</h4>
+                            <p class="text-sm text-gray-600">容量大、价格相对较低，但读写速度较慢。</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <h4 class="font-medium text-accent mb-1">固态硬盘 (SSD)</h4>
+                            <p class="text-sm text-gray-600">读写速度快，性能好，但同等容量价格较高。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 显卡 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center text-green-600 mb-4">
+                        <i class="fa fa-gamepad text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">显卡 (GPU)</h3>
+                    <p class="text-gray-600 mb-4">处理图形图像相关运算，对游戏、设计等应用至关重要。</p>
+                    <div class="text-sm text-green-600 font-medium">
+                        <i class="fa fa-info-circle mr-1"></i>
+                        常见品牌：NVIDIA、AMD
+                    </div>
+                </div>
+                
+                <!-- 主板 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 mb-4">
+                        <i class="fa fa-server text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">主板</h3>
+                    <p class="text-gray-600 mb-4">连接计算机各个硬件组件的平台。</p>
+                    <div class="text-sm text-orange-600 font-medium">
+                        <i class="fa fa-info-circle mr-1"></i>
+                        关键参数：CPU支持类型、内存插槽、扩展接口
+                    </div>
+                </div>
+                
+                <!-- 电源 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600 mb-4">
+                        <i class="fa fa-bolt text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">电源</h3>
+                    <p class="text-gray-600 mb-4">为计算机各个硬件提供稳定的电力供应。</p>
+                    <div class="text-sm text-purple-600 font-medium">
+                        <i class="fa fa-info-circle mr-1"></i>
+                        重要指标：功率、转换效率
+                    </div>
+                </div>
+                
+                <!-- 机箱 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 mb-4">
+                        <i class="fa fa-cube text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">机箱</h3>
+                    <p class="text-gray-600 mb-4">保护内部硬件，提供散热通道和安装空间。</p>
+                    <div class="text-sm text-indigo-600 font-medium">
+                        <i class="fa fa-info-circle mr-1"></i>
+                        类型：中塔、全塔等
+                    </div>
+                </div>
+                
+                <!-- 显示器 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600 mb-4">
+                        <i class="fa fa-tv text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">显示器</h3>
+                    <p class="text-gray-600 mb-4">输出图像和信息。</p>
+                    <div class="text-sm text-pink-600 font-medium">
+                        <i class="fa fa-info-circle mr-1"></i>
+                        关键参数：分辨率、刷新率、尺寸
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CPU与GPU详解 -->
+    <section id="cpu-gpu" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-dark mb-6">CPU 与 GPU 处理器详解</h2>
+                <p class="text-lg text-gray-600">深入了解处理器的工作原理、架构特点和性能参数</p>
+            </div>
+            
+            <!-- CPU详解 -->
+            <div class="mb-16">
+                <div class="flex items-center mb-8 gap-3">
+                    <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl">
+                        <i class="fa fa-microchip"></i>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-dark">CPU（中央处理器）</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- CPU分类 -->
+                    <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 text-primary flex items-center">
+                            <i class="fa fa-tags mr-2"></i>
+                            分类
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-lg p-4">
+                                <h5 class="font-medium text-primary mb-2">按应用场景分</h5>
+                                <ul class="text-sm text-gray-600 space-y-2">
+                                    <li><strong>桌面级 CPU</strong>：常见于家用电脑和办公电脑，性能兼顾多方面</li>
+                                    <li><strong>服务器级 CPU</strong>：专为服务器设计，具备高可靠性、多核心特性</li>
+                                    <li><strong>移动级 CPU</strong>：应用于笔记本电脑，强调低功耗、长续航</li>
+                                    <li><strong>嵌入式 CPU</strong>：用于智能家电等，在体积、功耗上有严格限制</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white rounded-lg p-4">
+                                <h5 class="font-medium text-primary mb-2">按指令集分</h5>
+                                <ul class="text-sm text-gray-600 space-y-2">
+                                    <li><strong>复杂指令集（CISC）</strong>：指令丰富，功能强大</li>
+                                    <li><strong>精简指令集（RISC）</strong>：指令简单，执行速度快，功耗较低</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CPU架构 -->
+                    <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 text-secondary flex items-center">
+                            <i class="fa fa-sitemap mr-2"></i>
+                            主要架构
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-lg p-4 border-l-4 border-secondary">
+                                <h5 class="font-medium text-secondary mb-2">x86 架构</h5>
+                                <p class="text-sm text-gray-600">由英特尔和 AMD 主导，兼容性极佳，软件生态成熟，广泛应用于桌面电脑和服务器。</p>
+                            </div>
+                            <div class="bg-white rounded-lg p-4 border-l-4 border-secondary">
+                                <h5 class="font-medium text-secondary mb-2">ARM 架构</h5>
+                                <p class="text-sm text-gray-600">低功耗优势明显，在移动设备、嵌入式系统领域占据主导地位。</p>
+                            </div>
+                            <div class="bg-white rounded-lg p-4 border-l-4 border-secondary">
+                                <h5 class="font-medium text-secondary mb-2">RISC-V 架构</h5>
+                                <p class="text-sm text-gray-600">开源的指令集架构，具有高度可定制性，在物联网等领域有广阔前景。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GPU详解 -->
+            <div>
+                <div class="flex items-center mb-8 gap-3">
+                    <div class="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-white font-bold text-xl">
+                        <i class="fa fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-dark">GPU（图形处理器）</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- GPU特点 -->
+                    <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 text-secondary flex items-center">
+                            <i class="fa fa-star mr-2"></i>
+                            主要特点
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-lg p-4 border-l-4 border-secondary">
+                                <h5 class="font-medium text-secondary mb-2">并行计算能力强</h5>
+                                <p class="text-sm text-gray-600">拥有数千个计算核心，适合处理大规模并行计算任务。</p>
+                            </div>
+                            <div class="bg-white rounded-lg p-4 border-l-4 border-secondary">
+                                <h5 class="font-medium text-secondary mb-2">图形渲染专业</h5>
+                                <p class="text-sm text-gray-600">专门优化图形渲染管线，在游戏、3D建模等领域表现出色。</p>
+                            </div>
+                            <div class="bg-white rounded-lg p-4 border-l-4 border-secondary">
+                                <h5 class="font-medium text-secondary mb-2">AI计算加速</h5>
+                                <p class="text-sm text-gray-600">在深度学习、机器学习等AI应用中提供强大的计算加速。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- GPU分类 -->
+                    <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 text-primary flex items-center">
+                            <i class="fa fa-layer-group mr-2"></i>
+                            主要分类
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-lg p-4">
+                                <h5 class="font-medium text-primary mb-2">集成显卡</h5>
+                                <p class="text-sm text-gray-600 mb-2">集成在CPU内部的显卡，功耗低，适合日常办公使用。</p>
+                                <div class="text-xs text-primary font-medium">代表：Intel Iris Xe、AMD Radeon Vega</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4">
+                                <h5 class="font-medium text-primary mb-2">独立显卡</h5>
+                                <p class="text-sm text-gray-600 mb-2">独立的硬件设备，性能强劲，适合游戏和专业应用。</p>
+                                <div class="text-xs text-primary font-medium">代表：NVIDIA GeForce、AMD Radeon</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4">
+                                <h5 class="font-medium text-primary mb-2">专业显卡</h5>
+                                <p class="text-sm text-gray-600 mb-2">针对专业应用优化，如3D建模、视频编辑等。</p>
+                                <div class="text-xs text-primary font-medium">代表：NVIDIA Quadro、AMD Radeon Pro</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 硬件工具软件 -->
+    <section id="tools" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-dark mb-6">硬件相关工具软件</h2>
+                <p class="text-lg text-gray-600">实用的硬件检测、管理和优化工具</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 检测监控类 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-4">
+                        <i class="fa fa-search text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">检测监控类</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>CPU-Z</strong>：查看CPU、主板、内存等硬件信息</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>GPU-Z</strong>：查看显卡详细信息</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>HWMonitor</strong>：监控硬件温度、电压、风扇转速</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>AIDA64</strong>：全面的硬件检测和系统信息工具</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 驱动管理类 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary mb-4">
+                        <i class="fa fa-download text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">驱动管理类</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>Driver Booster</strong>：自动检测并更新驱动程序</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>Driver Easy</strong>：简单易用的驱动更新工具</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>官方驱动程序</strong>：从硬件厂商官网获取最新驱动</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 硬盘管理类 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center text-accent mb-4">
+                        <i class="fa fa-hdd-o text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">硬盘管理类</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>CrystalDiskInfo</strong>：查看硬盘健康状态和SMART信息</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>CrystalDiskMark</strong>：测试硬盘读写性能</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>DiskGenius</strong>：分区管理和数据恢复工具</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 超频软件类 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 card-hover">
+                    <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center text-green-600 mb-4">
+                        <i class="fa fa-dashboard text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">超频软件类</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>Intel Extreme Tuning Utility</strong>：Intel CPU超频工具</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>AMD Ryzen Master</strong>：AMD Ryzen处理器超频</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="fa fa-check text-green-500 mt-1"></i>
+                            <span><strong>MSI Afterburner</strong>：显卡超频和监控工具</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 互动实践 -->
+    <section id="practice" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-dark mb-6">互动实践</h2>
+                <p class="text-lg text-gray-600">动手实践，查找并记录你的计算机配置信息</p>
+            </div>
+            
+            <!-- 实践步骤 -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold text-dark mb-8 text-center">查找笔记本配置的操作步骤</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gray-50 rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 text-primary flex items-center">
+                            <i class="fa fa-windows mr-2"></i>
+                            Windows 系统
+                        </h4>
+                        <ol class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-3">
+                                <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">1</span>
+                                <span>右键点击"此电脑"，选择"属性"</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">2</span>
+                                <span>查看处理器、内存等基本信息</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">3</span>
+                                <span>打开任务管理器（Ctrl+Shift+Esc），点击"性能"选项卡</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">4</span>
+                                <span>查看CPU、内存、磁盘、GPU等详细信息</span>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 text-secondary flex items-center">
+                            <i class="fa fa-apple mr-2"></i>
+                            macOS 系统
+                        </h4>
+                        <ol class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-3">
+                                <span class="bg-secondary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">1</span>
+                                <span>点击屏幕左上角的苹果图标</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-secondary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">2</span>
+                                <span>选择"关于本机"</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-secondary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">3</span>
+                                <span>查看处理器、内存、显卡等基本信息</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-secondary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">4</span>
+                                <span>点击"系统报告"查看更详细的硬件信息</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 记录表单 -->
+            <div class="bg-gray-50 rounded-xl p-8 shadow-sm border border-gray-100 max-w-4xl mx-auto">
+                <h3 class="text-xl font-semibold mb-6 text-center text-dark">记录你的计算机配置</h3>
+                <div class="w-full h-96 rounded-lg overflow-hidden border border-gray-200 bg-white flex items-center justify-center">
+                    <div class="text-center p-8">
+                        <i class="fa fa-external-link-alt text-4xl text-primary mb-4"></i>
+                        <h4 class="text-lg font-semibold mb-2">打开配置记录表单</h4>
+                        <p class="text-gray-600 mb-4">点击下方按钮跳转到配置记录表单</p>
+                        <a href="https://suntong.notion.site/ebd/2738b5562bb4808c8ac0f22d792d12dd" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                            <i class="fa fa-external-link-alt mr-2"></i>
+                            前往配置记录表单
+                        </a>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 text-center mt-4">
+                    <i class="fa fa-info-circle mr-1"></i>
+                    请在上方表单中填写你的计算机配置信息
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="flex items-center justify-center gap-2 text-2xl font-bold mb-4">
+                    <i class="fa fa-desktop text-primary"></i>
+                    <span>认识计算机</span>
+                </div>
+                <p class="text-gray-400 mb-6">掌握计算机基础知识，提升数字素养</p>
+                <div class="flex justify-center space-x-6">
+                    <a href="#classification" class="text-gray-400 hover:text-white transition-colors">计算机分类</a>
+                    <a href="#components" class="text-gray-400 hover:text-white transition-colors">主要配件</a>
+                    <a href="#cpu-gpu" class="text-gray-400 hover:text-white transition-colors">CPU与GPU</a>
+                    <a href="#tools" class="text-gray-400 hover:text-white transition-colors">硬件工具</a>
+                    <a href="#practice" class="text-gray-400 hover:text-white transition-colors">互动实践</a>
+                </div>
+                <div class="mt-8 pt-8 border-t border-gray-700">
+                    <p class="text-gray-400">&copy; 2024 认识计算机讲座. 保留所有权利.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    
+    <!-- 移动端菜单交互 -->
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 点击菜单项后关闭移动端菜单
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // 滚动时关闭移动端菜单
+        window.addEventListener('scroll', function() {
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+        
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        let lastScrollY = window.scrollY;
+        
+        window.addEventListener('scroll', function() {
+            const currentScrollY = window.scrollY;
+            
+            // 添加/移除滚动类
+            if (currentScrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // 隐藏/显示导航栏（向下滚动时隐藏，向上滚动时显示）
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollY = currentScrollY;
+        });
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

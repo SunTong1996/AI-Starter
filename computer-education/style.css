@@ -1,0 +1,679 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+    opacity: 0; /* 初始隐藏，用于页面加载动画 */
+}
+
+/* 头部样式 */
+header {
+    background: linear-gradient(135deg, #4a6fa5 0%, #6b8cce 100%);
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.1) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    animation: moveBackground 20s linear infinite;
+    z-index: 1;
+}
+
+header .container {
+    position: relative;
+    z-index: 2;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: fadeInUp 1s ease-out;
+}
+
+header p {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes moveBackground {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 导航栏样式 */
+nav {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+/* 滚动时导航栏样式变化 */
+nav.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+nav ul li {
+    padding: 1rem 1.5rem;
+    position: relative;
+}
+
+nav ul li a {
+    color: #4a6fa5;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: block;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+nav ul li a:hover {
+    color: #6b8cce;
+}
+
+/* 导航链接下划线动画 */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #6b8cce;
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 100%;
+}
+
+/* 激活的导航项样式 */
+nav ul li a.active {
+    color: #6b8cce;
+    font-weight: 600;
+}
+
+/* 主内容区域样式 */
+main {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+}
+
+section {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 章节标题装饰线 */
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(to bottom, #4a6fa5, #6b8cce);
+}
+
+section h2 {
+    color: #4a6fa5;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 3px solid #f0f4f8;
+    position: relative;
+    font-size: 1.8rem;
+}
+
+section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background-color: #4a6fa5;
+}
+
+section p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+    line-height: 1.8;
+}
+
+/* 章节进入动画 */
+.section-enter {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.section-visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: sectionFadeIn 0.8s ease-out;
+}
+
+@keyframes sectionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 内容卡片样式 */
+.content-card {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-top: 3px solid transparent;
+}
+
+.content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-top-color: #4a6fa5;
+}
+
+.content-card h3 {
+    color: #4a6fa5;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    position: relative;
+    display: inline-block;
+}
+
+.content-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #6b8cce;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.content-card:hover h3::after {
+    transform: scaleX(1);
+}
+
+/* 卡片渐入动画 */
+.card-animation {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.card-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 时间线样式 */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #e0e0e0;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 2rem;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 0.5rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #4a6fa5;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-item h3 {
+    color: #4a6fa5;
+    margin-bottom: 0.5rem;
+}
+
+/* 子卡片样式 */
+.sub-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    border-left: 4px solid #6b8cce;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.sub-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sub-card:last-child {
+    margin-bottom: 0;
+}
+
+.sub-card h4 {
+    color: #4a6fa5;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.sub-card ul {
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+}
+
+.sub-card li {
+    margin-bottom: 0.5rem;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.sub-card li:hover {
+    transform: translateX(3px);
+}
+
+.sub-card li:last-child {
+    margin-bottom: 0;
+}
+
+/* 孙子卡片样式 */
+.sub-sub-card {
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.sub-sub-card:hover {
+    background-color: #e6ecf5;
+    border-color: #6b8cce;
+}
+
+.sub-sub-card:last-child {
+    margin-bottom: 0;
+}
+
+.sub-sub-card h5 {
+    color: #6b8cce;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.sub-sub-card p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* 软件卡片样式 */
+.software-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border-top: 3px solid #4a6fa5;
+    position: relative;
+    overflow: hidden;
+}
+
+.software-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background-color: rgba(107, 140, 206, 0.05);
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+}
+
+.software-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.software-card:last-child {
+    margin-bottom: 0;
+}
+
+.software-card h4 {
+    color: #4a6fa5;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.software-card p {
+    margin-bottom: 0.8rem;
+    position: relative;
+    z-index: 1;
+}
+
+.software-card a {
+    color: #6b8cce;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    padding: 0.2rem 0;
+}
+
+.software-card a:hover {
+    color: #4a6fa5;
+    text-decoration: underline;
+}
+
+/* 实践步骤样式 */
+.practice-step {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    border-left: 4px solid #6b8cce;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.practice-step::before {
+    content: '步骤';
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.8rem;
+    color: rgba(74, 111, 165, 0.2);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.practice-step:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.practice-step:last-child {
+    margin-bottom: 0;
+}
+
+.practice-step h4 {
+    color: #4a6fa5;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+}
+
+.practice-step ul {
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+}
+
+.practice-step li {
+    margin-bottom: 0.5rem;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.practice-step li:hover {
+    transform: translateX(3px);
+}
+
+.practice-step li:last-child {
+    margin-bottom: 0;
+}
+
+/* 记录表单样式 */
+.record-form {
+    background-color: #f0f4f8;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.record-form::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(107, 140, 206, 0.05), transparent);
+    border-radius: 50%;
+    transform: translate(50%, 50%);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    color: #4a6fa5;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    transition: all 0.3s ease;
+    min-height: 120px;
+    background-color: white;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #6b8cce;
+    box-shadow: 0 0 0 3px rgba(107, 140, 206, 0.1);
+    transform: translateY(-2px);
+}
+
+/* 按钮样式 */
+.btn {
+    background-color: #4a6fa5;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.6s ease;
+    z-index: -1;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    background-color: #6b8cce;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 111, 165, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* 保存成功消息样式增强 */
+#save-success-message {
+    animation: slideIn 0.5s ease-out, fadeOut 0.3s ease-in 2.7s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* 页脚样式 */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: 2rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        padding: 0.5rem;
+    }
+    
+    main {
+        padding: 0 1rem;
+    }
+    
+    section {
+        padding: 1.5rem;
+    }
+}
