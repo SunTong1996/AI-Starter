@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI设备信息中心</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5', // 主色调
+                        secondary: '#10B981', // 辅助色
+                        dark: '#1F2937', // 深色
+                        light: '#F3F4F6', // 浅色
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .device-card {
+                @apply bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+            }
+            .feature-icon {
+                @apply w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary;
+            }
+            .spec-item {
+                @apply grid grid-cols-2 gap-2 py-2 border-b border-gray-100 last:border-0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm shadow-sm z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="../" class="flex items-center space-x-2">
+                <i class="fa fa-microchip text-primary text-2xl"></i>
+                <span class="text-xl font-bold text-dark">AI设备信息中心</span>
+            </a>
+            
+            <!-- 桌面菜单 -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="text-gray-600 hover:text-primary transition-colors">概览</a>
+                <a href="#categories" class="text-gray-600 hover:text-primary transition-colors">设备分类</a>
+                <a href="#popular" class="text-gray-600 hover:text-primary transition-colors">热门设备</a>
+                <a href="#specs" class="text-gray-600 hover:text-primary transition-colors">规格参数</a>
+                <a href="#guide" class="text-gray-600 hover:text-primary transition-colors">使用指南</a>
+            </div>
+            
+            <!-- 移动端菜单按钮 -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none">
+                <i class="fa fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#overview" class="py-2 text-gray-600 hover:text-primary transition-colors">概览</a>
+                <a href="#categories" class="py-2 text-gray-600 hover:text-primary transition-colors">设备分类</a>
+                <a href="#popular" class="py-2 text-gray-600 hover:text-primary transition-colors">热门设备</a>
+                <a href="#specs" class="py-2 text-gray-600 hover:text-primary transition-colors">规格参数</a>
+                <a href="#guide" class="py-2 text-gray-600 hover:text-primary transition-colors">使用指南</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <header class="pt-24 pb-16 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-dark mb-4">AI设备信息中心</h1>
+            <p class="text-[clamp(1rem,2vw,1.25rem)] text-gray-600 max-w-3xl mx-auto mb-8">
+                全面了解各类运行AI的设备特性、功能、规格参数及使用说明，助力您选择最适合的AI设备
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#categories" class="px-6 py-3 bg-primary text-white rounded-lg shadow-md hover:bg-primary/90 transition-colors">
+                    <i class="fa fa-th-large mr-2"></i>浏览设备分类
+                </a>
+                <a href="#popular" class="px-6 py-3 bg-white text-primary border border-primary rounded-lg shadow-sm hover:bg-primary/5 transition-colors">
+                    <i class="fa fa-star mr-2"></i>查看热门设备
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 概览部分 -->
+    <section id="overview" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">AI设备概览</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">了解不同类型AI设备的基本概念、应用场景和发展趋势</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="device-card p-6">
+                    <div class="feature-icon mb-4">
+                        <i class="fa fa-laptop"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">消费级AI设备</h3>
+                    <p class="text-gray-600 mb-4">面向个人用户的AI设备，包括智能手机、智能音箱、智能家居设备等，注重易用性和趣味性。</p>
+                    <ul class="space-y-2 text-gray-500">
+                        <li><i class="fa fa-check-circle text-secondary mr-2"></i>易于使用，操作简单</li>
+                        <li><i class="fa fa-check-circle text-secondary mr-2"></i>价格亲民，普及度高</li>
+                        <li><i class="fa fa-check-circle text-secondary mr-2"></i>注重用户体验和交互</li>
+                    </ul>
+                </div>
+                
+                <div class="device-card p-6">
+                    <div class="feature-icon mb-4">
+                        <i class="fa fa-server"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">专业级AI设备</h3>
+                    <p class="text-gray-600 mb-4">面向企业和专业用户的AI设备，包括服务器、工作站、专用AI加速卡等，注重性能和可靠性。</p>
+                    <ul class="space-y-2 text-gray-500">
+                        <li><i class="fa fa-check-circle text-secondary mr-2"></i>高性能计算能力</li>
+                        <li><i class="fa fa-check-circle text-secondary mr-2"></i>稳定可靠，7×24运行</li>
+                        <li><i class="fa fa-check-circle text-secondary mr-2"></i>支持大规模数据处理</li>
+                    </ul>
+                </div>
+                
+                <div class="device-card p-6">
+                    <div class="feature-icon mb-4">
+                        <i class="fa fa-rocket"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">前沿AI设备</h3>
+                    <p class="text-gray-600 mb-4">处于技术前沿的AI设备，包括量子计算机、神经形态芯片、脑机接口等，代表未来发展方向。</p>
+                    <ul class="space-y-2 text-gray-500">
+                        <li><i class="fa fa-check-circle text-secondary mr-2"></i>突破性技术创新</li>
+                        <li><i class="fa fa-check-circle text-secondary mr-2"></i>解决复杂科学问题</li>
+                        <li><i class="fa fa-check-circle text-secondary mr-2"></i>引领产业发展方向</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 设备分类部分 -->
+    <section id="categories" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">设备分类</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">浏览不同类型的AI设备，了解各类设备的特点和应用场景</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <a href="#smartphones" class="device-card group">
+                    <div class="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        <i class="fa fa-mobile text-6xl text-primary/60 group-hover:text-primary transition-colors"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">智能手机</h3>
+                        <p class="text-gray-500 text-sm">集成AI芯片的移动设备，支持人脸识别、语音助手等功能</p>
+                    </div>
+                </a>
+                
+                <a href="#smart-speakers" class="device-card group">
+                    <div class="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        <i class="fa fa-volume-up text-6xl text-primary/60 group-hover:text-primary transition-colors"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">智能音箱</h3>
+                        <p class="text-gray-500 text-sm">支持语音交互的智能设备，可控制智能家居、播放音乐等</p>
+                    </div>
+                </a>
+                
+                <a href="#ai-cameras" class="device-card group">
+                    <div class="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        <i class="fa fa-camera text-6xl text-primary/60 group-hover:text-primary transition-colors"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">AI相机</h3>
+                        <p class="text-gray-500 text-sm">具备智能识别、场景优化、自动编辑等功能的智能相机</p>
+                    </div>
+                </a>
+                
+                <a href="#smart-home" class="device-card group">
+                    <div class="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        <i class="fa fa-home text-6xl text-primary/60 group-hover:text-primary transition-colors"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">智能家居</h3>
+                        <p class="text-gray-500 text-sm">支持AI控制的家居设备，如智能灯光、温控、安防系统等</p>
+                    </div>
+                </a>
+                
+                <a href="#ai-servers" class="device-card group">
+                    <div class="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        <i class="fa fa-server text-6xl text-primary/60 group-hover:text-primary transition-colors"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">AI服务器</h3>
+                        <p class="text-gray-500 text-sm">专为AI计算优化的服务器，支持大规模模型训练和推理</p>
+                    </div>
+                </a>
+                
+                <a href="#accelerators" class="device-card group">
+                    <div class="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        <i class="fa fa-microchip text-6xl text-primary/60 group-hover:text-primary transition-colors"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">AI加速卡</h3>
+                        <p class="text-gray-500 text-sm">GPU、TPU等专用加速芯片，提供高性能AI计算能力</p>
+                    </div>
+                </a>
+                
+                <a href="#robots" class="device-card group">
+                    <div class="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        <i class="fa fa-android text-6xl text-primary/60 group-hover:text-primary transition-colors"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">AI机器人</h3>
+                        <p class="text-gray-500 text-sm">具备感知、决策和执行能力的智能机器人，应用于多个领域</p>
+                    </div>
+                </a>
+                
+                <a href="#wearables" class="device-card group">
+                    <div class="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        <i class="fa fa-clock-o text-6xl text-primary/60 group-hover:text-primary transition-colors"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">智能穿戴</h3>
+                        <p class="text-gray-500 text-sm">智能手表、手环等可穿戴设备，支持健康监测、运动追踪等</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 热门设备部分 -->
+    <section id="popular" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">热门AI设备</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">查看当前市场上最受欢迎的AI设备及其详细信息</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 设备1 -->
+                <div class="device-card">
+                    <div class="h-60 bg-gray-100 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 opacity-60"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fa fa-laptop text-8xl text-primary/30"></i>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-secondary text-white text-xs px-2 py-1 rounded-full">
+                            热门推荐
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-semibold">智能AI笔记本</h3>
+                            <div class="flex items-center text-yellow-400">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                                <span class="text-gray-600 text-sm ml-1">4.5</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">搭载最新AI处理器的高性能笔记本，支持实时语言翻译、智能内容创作、自动优化性能等功能。</p>
+                        <div class="space-y-2 text-sm text-gray-500">
+                            <div class="spec-item">
+                                <span class="font-medium">处理器：</span>
+                                <span>第12代AI加速处理器</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="font-medium">内存：</span>
+                                <span>16GB LPDDR5</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="font-medium">存储：</span>
+                                <span>1TB SSD</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="font-medium">电池：</span>
+                                <span>12小时续航</span>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-xl font-bold text-primary">¥9,999</span>
+                            <button class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 设备2 -->
+                <div class="device-card">
+                    <div class="h-60 bg-gray-100 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 opacity-60"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fa fa-mobile text-8xl text-primary/30"></i>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                            新品上市
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-semibold">AI智能手机</h3>
+                            <div class="flex items-center text-yellow-400">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <span class="text-gray-600 text-sm ml-1">4.0</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">配备强大AI芯片的旗舰智能手机，支持智能拍照、语音助手、实时翻译等多种AI功能。</p>
+                        <div class="space-y-2 text-sm text-gray-500">
+                            <div class="spec-item">
+                                <span class="font-medium">处理器：</span>
+                                <span>八核AI处理器</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="font-medium">摄像头：</span>
+                                <span>1亿像素AI三摄</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="font-medium">屏幕：</span>
+                                <span>6.7英寸AMOLED</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="font-medium">电池：</span>
+                                <span>5000mAh + 65W快充</span>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-xl font-bold text-primary">¥5,999</span>
+                            <button class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 设备3 -->
+                <div class="device-card">
+                    <div class="h-60 bg-gray-100 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 opacity-60"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fa fa-microchip text-8xl text-primary/30"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-semibold">AI加速卡</h3>
+                            <div class="flex items-center text-yellow-400">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <span class="text-gray-600 text-sm ml-1">5.0</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">专业级AI加速卡，为深度学习模型训练和推理提供强大计算支持，适用于数据中心和科研机构。</p>
+                        <div class="space-y-2 text-sm text-gray-500">
+                            <div class="spec-item">
+                                <span class="font-medium">CUDA核心：</span>
+                                <span>10,240</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="font-medium">显存：</span>
+                                <span>32GB GDDR6X</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="font-medium">功耗：</span>
+                                <span>350W</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="font-medium">接口：</span>
+                                <span>PCIe 4.0</span>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-xl font-bold text-primary">¥19,999</span>
+                            <button class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <button class="px-6 py-3 bg-white text-primary border border-primary rounded-lg shadow-sm hover:bg-primary/5 transition-colors">
+                    加载更多设备 <i class="fa fa-chevron-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 规格参数部分 -->
+    <section id="specs" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">AI设备规格参数详解</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">了解AI设备关键参数的含义及其对性能的影响</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold mb-4">处理器规格</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-primary pl-4 py-2">
+                            <h4 class="font-medium mb-1">AI芯片架构</h4>
+                            <p class="text-gray-600 text-sm">决定了设备的AI计算能力和效率，不同架构针对不同类型的AI任务进行优化。</p>
+                        </div>
+                        <div class="border-l-4 border-secondary pl-4 py-2">
+                            <h4 class="font-medium mb-1">核心数量</h4>
+                            <p class="text-gray-600 text-sm">更多的核心意味着更强的并行处理能力，适用于多任务和复杂计算场景。</p>
+                        </div>
+                        <div class="border-l-4 border-primary pl-4 py-2">
+                            <h4 class="font-medium mb-1">时钟频率</h4>
+                            <p class="text-gray-600 text-sm">以GHz为单位，影响处理器的运算速度，较高的频率通常意味着更快的单线程性能。</p>
+                        </div>
+                        <div class="border-l-4 border-secondary pl-4 py-2">
+                            <h4 class="font-medium mb-1">专用AI加速器</h4>
+                            <p class="text-gray-600 text-sm">如NPU、TPU等，专为AI计算设计，大幅提升AI任务的处理速度和能效比。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold mb-4">内存与存储</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-primary pl-4 py-2">
+                            <h4 class="font-medium mb-1">内存容量</h4>
+                            <p class="text-gray-600 text-sm">影响设备能够同时处理的数据量和运行的模型大小，较大内存适合复杂AI应用。</p>
+                        </div>
+                        <div class="border-l-4 border-secondary pl-4 py-2">
+                            <h4 class="font-medium mb-1">内存类型</h4>
+                            <p class="text-gray-600 text-sm">DDR4、DDR5、LPDDR5等，新类型内存提供更高带宽和更低功耗。</p>
+                        </div>
+                        <div class="border-l-4 border-primary pl-4 py-2">
+                            <h4 class="font-medium mb-1">存储容量</h4>
+                            <p class="text-gray-600 text-sm">影响可存储的模型、数据集和应用程序数量，AI应用通常需要较大存储空间。</p>
+                        </div>
+                        <div class="border-l-4 border-secondary pl-4 py-2">
+                            <h4 class="font-medium mb-1">存储速度</h4>
+                            <p class="text-gray-600 text-sm">SSD相比HDD提供更快的数据读写速度，显著提升AI模型加载和数据处理效率。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold mb-4">连接与接口</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-primary pl-4 py-2">
+                            <h4 class="font-medium mb-1">网络连接</h4>
+                            <p class="text-gray-600 text-sm">Wi-Fi 6/6E、5G等高速网络支持，确保AI设备能够快速访问云端资源和数据。</p>
+                        </div>
+                        <div class="border-l-4 border-secondary pl-4 py-2">
+                            <h4 class="font-medium mb-1">扩展接口</h4>
+                            <p class="text-gray-600 text-sm">USB 3.2/4.0、Thunderbolt、PCIe等，支持连接外部设备和扩展AI计算能力。</p>
+                        </div>
+                        <div class="border-l-4 border-primary pl-4 py-2">
+                            <h4 class="font-medium mb-1">显示接口</h4>
+                            <p class="text-gray-600 text-sm">HDMI、DisplayPort等，支持高分辨率显示，适用于AI可视化和交互应用。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold mb-4">电源与散热</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-primary pl-4 py-2">
+                            <h4 class="font-medium mb-1">功耗</h4>
+                            <p class="text-gray-600 text-sm">AI设备的功耗直接影响散热需求和电池续航，低功耗设计适合移动AI设备。</p>
+                        </div>
+                        <div class="border-l-4 border-secondary pl-4 py-2">
+                            <h4 class="font-medium mb-1">散热系统</h4>
+                            <p class="text-gray-600 text-sm">高效的散热设计确保AI设备在高负载运行时保持稳定性能，避免过热降频。</p>
+                        </div>
+                        <div class="border-l-4 border-primary pl-4 py-2">
+                            <h4 class="font-medium mb-1">电池续航</h4>
+                            <p class="text-gray-600 text-sm">对于移动AI设备，长续航至关重要，影响设备在脱离电源情况下的使用时间。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 使用指南部分 -->
+    <section id="guide" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">AI设备使用指南</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">了解如何选择、使用和维护您的AI设备，发挥其最大性能</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg p-6">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa fa-search text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">如何选择合适的AI设备</h3>
+                    <ol class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">1</span>
+                            <span>确定您的主要使用场景和需求，如个人使用、企业应用或专业研究</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">2</span>
+                            <span>评估设备的AI计算能力，包括处理器性能、内存容量和专用加速器</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">3</span>
+                            <span>考虑设备的软件生态和兼容性，确保支持您需要的AI框架和应用</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">4</span>
+                            <span>设定合理的预算范围，平衡性能需求和价格因素</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">5</span>
+                            <span>查阅专业评测和用户反馈，了解设备的实际表现和可靠性</span>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg p-6">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa fa-cogs text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">AI设备优化技巧</h3>
+                    <ol class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">1</span>
+                            <span>定期更新设备固件和AI软件，获取性能提升和新功能</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">2</span>
+                            <span>根据任务类型调整AI计算资源分配，优化性能和功耗平衡</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">3</span>
+                            <span>保持设备散热良好，避免因温度过高导致性能下降</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">4</span>
+                            <span>使用高性能存储介质，加速模型加载和数据处理速度</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">5</span>
+                            <span>合理管理内存使用，关闭不需要的后台应用，释放系统资源</span>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg p-6">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa fa-shield text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">AI设备维护与安全</h3>
+                    <ol class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">1</span>
+                            <span>建立数据备份策略，定期备份重要的模型和数据</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">2</span>
+                            <span>安装可靠的安全软件，定期扫描设备，防范恶意软件威胁</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">3</span>
+                            <span>注意保护设备的物理安全，避免摔落、碰撞和液体接触</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">4</span>
+                            <span>对于敏感数据和模型，启用加密功能，保护知识产权</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">5</span>
+                            <span>遵循制造商的保修条款，定期进行专业维护和检查</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 设备对比工具 -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">AI设备对比工具</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">选择并对比多款AI设备的规格参数和性能指标</p>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <div class="relative flex-grow min-w-[200px]">
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 pr-10">
+                            <option value="">选择设备1</option>
+                            <option value="device1">智能AI笔记本</option>
+                            <option value="device2">AI智能手机</option>
+                            <option value="device3">AI加速卡</option>
+                        </select>
+                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="relative flex-grow min-w-[200px]">
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 pr-10">
+                            <option value="">选择设备2</option>
+                            <option value="device1">智能AI笔记本</option>
+                            <option value="device2">AI智能手机</option>
+                            <option value="device3">AI加速卡</option>
+                        </select>
+                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="relative flex-grow min-w-[200px]">
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 pr-10">
+                            <option value="">选择设备3</option>
+                            <option value="device1">智能AI笔记本</option>
+                            <option value="device2">AI智能手机</option>
+                            <option value="device3">AI加速卡</option>
+                        </select>
+                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors mb-6">
+                    开始对比
+                </button>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[600px]">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left py-3 px-4 font-semibold text-gray-700">规格参数</th>
+                                <th class="text-left py-3 px-4 font-semibold text-gray-700">设备1</th>
+                                <th class="text-left py-3 px-4 font-semibold text-gray-700">设备2</th>
+                                <th class="text-left py-3 px-4 font-semibold text-gray-700">设备3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-gray-600">处理器</td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-gray-600">内存容量</td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-gray-600">存储容量</td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-gray-600">AI计算能力</td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-gray-600">功耗</td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-gray-600">价格</td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                                <td class="py-3 px-4 text-gray-800"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa fa-microchip text-primary text-2xl"></i>
+                        <span class="text-xl font-bold">AI设备信息中心</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        全面的AI设备信息平台，为您提供各类运行AI的设备特性、功能、规格参数及使用说明。
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#overview" class="hover:text-primary transition-colors">概览</a></li>
+                        <li><a href="#categories" class="hover:text-primary transition-colors">设备分类</a></li>
+                        <li><a href="#popular" class="hover:text-primary transition-colors">热门设备</a></li>
+                        <li><a href="#specs" class="hover:text-primary transition-colors">规格参数</a></li>
+                        <li><a href="#guide" class="hover:text-primary transition-colors">使用指南</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">资源</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition-colors">设备评测</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">购买指南</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">技术文章</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">常见问题</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">订阅更新</h4>
+                    <p class="text-gray-400 text-sm mb-4">
+                        订阅我们的新闻通讯，获取最新的AI设备信息和行业动态。
+                    </p>
+                    <div class="flex">
+                        <input type="email" placeholder="您的邮箱地址" class="flex-grow px-4 py-2 rounded-l-lg focus:outline-none text-gray-800">
+                        <button class="px-4 py-2 bg-primary text-white rounded-r-lg hover:bg-primary/90 transition-colors">
+                            订阅
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                    &copy; 2023 AI设备信息中心. 保留所有权利.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fa fa-weibo"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fa fa-wechat"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fa fa-github"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fa fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
+        <i class="fa fa-chevron-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>

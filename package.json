@@ -1,0 +1,23 @@
+{
+  "name": "ai-starter",
+  "version": "1.0.0",
+  "description": "系统化AI入门课程体系 - 专为零基础学习者设计",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server --port=3000"
+  },
+  "keywords": [
+    "AI",
+    "机器学习",
+    "深度学习",
+    "人工智能",
+    "入门课程"
+  ],
+  "author": "AI-Starter Team",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  }
+}

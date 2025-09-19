@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Starter - 系统化AI入门课程体系</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="style.css" rel="stylesheet">
+    <!-- 配置Tailwind自定义主题 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4338ca', // 深蓝紫色作为主色调
+                        secondary: '#8b5cf6', // 紫色作为辅助色
+                        accent: '#ec4899', // 粉色作为强调色
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-custom {
+                transition: all 0.3s ease;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark font-sans">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center bg-white/90 backdrop-blur-md shadow-sm">
+            <a href="#" class="flex items-center gap-2 text-2xl font-bold text-primary">
+                <i class="fa fa-robot"></i>
+                <span>AI-Starter</span>
+            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#intro" class="font-medium hover:text-primary transition-colors">简介</a>
+                <a href="#features" class="font-medium hover:text-primary transition-colors">课程特点</a>
+                <a href="#curriculum" class="font-medium hover:text-primary transition-colors">课程大纲</a>
+                <a href="#resources" class="font-medium hover:text-primary transition-colors">学习资源</a>
+                <a href="#advice" class="font-medium hover:text-primary transition-colors">学习建议</a>
+                <a href="device-info/" class="font-medium hover:text-primary transition-colors">AI设备信息</a>
+            </div>
+            <button id="menu-toggle" class="md:hidden text-dark focus:outline-none">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </nav>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="#intro" class="block font-medium hover:text-primary transition-colors">简介</a>
+                <a href="#features" class="block font-medium hover:text-primary transition-colors">课程特点</a>
+                <a href="#curriculum" class="block font-medium hover:text-primary transition-colors">课程大纲</a>
+                <a href="#resources" class="block font-medium hover:text-primary transition-colors">学习资源</a>
+                <a href="#advice" class="block font-medium hover:text-primary transition-colors">学习建议</a>
+                <a href="device-info/" class="block font-medium hover:text-primary transition-colors">AI设备信息</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section id="intro" class="pt-28 pb-16 md:pt-36 md:pb-24 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
+                <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-dark mb-6">
+                    从零开始的
+                    <span class="text-primary">AI学习之旅</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl">
+                    专为零基础学习者打造的系统化AI入门课程体系，循序渐进地掌握人工智能相关知识与应用能力。
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#curriculum" class="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                        查看课程大纲
+                    </a>
+                    <a href="#resources" class="bg-white hover:bg-gray-50 text-primary border border-primary font-medium px-6 py-3 rounded-lg shadow hover:shadow-md transition-all">
+                        探索学习资源
+                    </a>
+                </div>
+                <div class="mt-16 flex flex-wrap justify-center gap-8 max-w-3xl">
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                            <i class="fa fa-book text-2xl"></i>
+                        </div>
+                        <p class="font-medium">14周系统化学习</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mb-4">
+                            <i class="fa fa-code text-2xl"></i>
+                        </div>
+                        <p class="font-medium">实战项目驱动</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-4">
+                            <i class="fa fa-users text-2xl"></i>
+                        </div>
+                        <p class="font-medium">零基础友好</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程特点 -->
+    <section id="features" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-dark mb-6">为什么选择我们的课程？</h2>
+                <p class="text-lg text-gray-600">精心设计的学习体验，助您高效掌握AI知识与技能</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <!-- 特点1 -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-4">
+                        <i class="fa fa-graduation-cap text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">零基础友好</h3>
+                    <p class="text-gray-600">从最基本的概念开始，无需任何前置知识，让每个人都能入门AI。</p>
+                </div>
+                <!-- 特点2 -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary mb-4">
+                        <i class="fa fa-level-up text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">循序渐进</h3>
+                    <p class="text-gray-600">内容由浅入深，逐步建立完整的知识体系，避免学习过程中的挫败感。</p>
+                </div>
+                <!-- 特点3 -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center text-accent mb-4">
+                        <i class="fa fa-cogs text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">理论结合实践</h3>
+                    <p class="text-gray-600">每个知识点都配有实际案例和练习，帮助您将理论知识转化为实际应用能力。</p>
+                </div>
+                <!-- 特点4 -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center text-green-600 mb-4">
+                        <i class="fa fa-comments text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">通俗易懂</h3>
+                    <p class="text-gray-600">避免复杂术语，用简单明了的语言解释概念，让AI不再神秘。</p>
+                </div>
+                <!-- 特点5 -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                    <div class="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 mb-4">
+                        <i class="fa fa-briefcase text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">实用性强</h3>
+                    <p class="text-gray-600">注重实际应用能力的培养，所学知识能够直接应用于实际工作和项目中。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程大纲 -->
+    <section id="curriculum" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-dark mb-6">课程大纲</h2>
+                <p class="text-lg text-gray-600">14周系统化学习路径，从基础到实战，全面掌握AI知识与技能</p>
+            </div>
+
+            <!-- 第一阶段 -->
+            <div class="mb-16">
+                <div class="flex items-center mb-8 gap-3">
+                    <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl">1</div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-dark">AI基础认知</h3>
+                    <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-medium ml-4">4周</span>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pl-0 md:pl-16">
+                    <!-- 第1周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium text-sm">1</span>
+                            人工智能概述
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>什么是人工智能？AI的定义与发展历程</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>AI的分类与应用领域</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>AI对社会的影响与未来发展趋势</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-primary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：AI应用场景调研与分享</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 第2周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium text-sm">2</span>
+                            AI核心概念解析
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>机器学习、深度学习与神经网络基础</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>数据、算法与算力 - AI的三大支柱</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>监督学习、无监督学习与强化学习</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-primary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：AI概念思维导图制作</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 第3周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium text-sm">3</span>
+                            AI与数据科学基础
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>数据的重要性与数据类型</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>数据分析基础与统计思维</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>数据可视化入门</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-primary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：简单数据集分析与可视化</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 第4周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium text-sm">4</span>
+                            AI伦理与安全
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>AI伦理原则与挑战</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>数据隐私与算法公平性</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>AI安全与风险防范</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-primary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：AI伦理案例分析与讨论</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二阶段 -->
+            <div class="mb-16">
+                <div class="flex items-center mb-8 gap-3">
+                    <div class="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-white font-bold text-xl">2</div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-dark">AI核心原理</h3>
+                    <span class="bg-secondary/10 text-secondary px-4 py-1 rounded-full text-sm font-medium ml-4">6周</span>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pl-0 md:pl-16">
+                    <!-- 第5-7周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-medium text-sm">5</span>
+                            机器学习基础算法
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>线性回归与逻辑回归</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>决策树与随机森林</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>聚类算法与降维技术</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-secondary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：使用Python实现简单机器学习模型</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-medium text-sm">6</span>
+                            深度学习基础
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>神经网络结构与工作原理</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>激活函数与损失函数</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>前向传播与反向传播</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-secondary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：搭建第一个简单神经网络</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-medium text-sm">7</span>
+                            深度学习进阶
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>卷积神经网络（CNN）原理与应用</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>循环神经网络（RNN）与LSTM</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>常用深度学习框架介绍</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-secondary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：使用TensorFlow/Keras实现图像分类</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 第8-10周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-medium text-sm">8</span>
+                            自然语言处理基础
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>NLP概述与应用场景</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>词向量与语言模型</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>文本分类与情感分析</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-secondary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：简单文本情感分析项目</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-medium text-sm">9</span>
+                            计算机视觉基础
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>计算机视觉概述</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>图像预处理与特征提取</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>图像分类与目标检测</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-secondary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：简单图像识别项目</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary font-medium text-sm">10</span>
+                            AI模型训练与优化
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>模型训练流程与超参数调优</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>过拟合与欠拟合及其解决方法</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>模型评估指标与方法</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-secondary font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：模型训练与优化实验</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第三阶段 -->
+            <div>
+                <div class="flex items-center mb-8 gap-3">
+                    <div class="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xl">3</div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-dark">AI实用技能</h3>
+                    <span class="bg-accent/10 text-accent px-4 py-1 rounded-full text-sm font-medium ml-4">4周</span>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pl-0 md:pl-16">
+                    <!-- 第11周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent font-medium text-sm">11</span>
+                            AI编程基础
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>Python基础语法与数据处理库</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>NumPy、Pandas与Matplotlib入门</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>AI开发环境搭建</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-accent font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：Python编程练习与环境配置</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 第12周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent font-medium text-sm">12</span>
+                            AI项目实战（一）
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>数据分析与预测模型项目</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>项目规划与实施步骤</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>数据收集、清洗与预处理</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-accent font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：完成第一个AI小项目</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 第13周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent font-medium text-sm">13</span>
+                            AI项目实战（二）
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>深度学习应用项目</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>模型部署与应用集成</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>项目展示与汇报技巧</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-accent font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：深度学习项目开发与展示</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 第14周 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100">
+                        <h4 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent font-medium text-sm">14</span>
+                            AI职业发展与进阶路径
+                        </h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>AI行业就业前景与岗位需求</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>AI学习资源与进阶方向</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa fa-check text-green-500 mt-1"></i>
+                                <span>个人AI学习计划制定</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-accent font-medium mt-4">
+                                <i class="fa fa-flask"></i>
+                                <span>实践：制定个人AI学习与职业发展规划</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学习资源 -->
+    <section id="resources" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-dark mb-6">学习资源</h2>
+                <p class="text-lg text-gray-600">精选优质学习材料，助力您的AI学习之旅</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 推荐书籍 -->
+                <div class="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl p-6 border border-gray-100">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6">
+                        <i class="fa fa-book text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6">推荐书籍</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-primary shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-book"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">《人工智能：现代方法》</h4>
+                                <p class="text-gray-600">AI领域的经典教材，全面介绍人工智能的理论与实践</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-secondary shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-book"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">《深度学习》（花书）</h4>
+                                <p class="text-gray-600">深度学习领域的权威著作，由三位顶尖专家合著</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-accent shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-book"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">《Python机器学习基础教程》</h4>
+                                <p class="text-gray-600">适合初学者的机器学习入门书籍，注重实践</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-green-600 shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-book"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">《机器学习实战》</h4>
+                                <p class="text-gray-600">通过实际案例学习机器学习算法的实用指南</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 在线学习平台 -->
+                <div class="bg-gradient-to-br from-secondary/5 to-accent/5 rounded-xl p-6 border border-gray-100">
+                    <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mb-6">
+                        <i class="fa fa-laptop text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6">在线学习平台</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-secondary shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Coursera</h4>
+                                <p class="text-gray-600">Andrew Ng的机器学习课程，AI领域的入门经典</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-accent shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">edX</h4>
+                                <p class="text-gray-600">MIT的AI相关课程，提供高质量的大学课程体验</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-primary shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">fast.ai</h4>
+                                <p class="text-gray-600">实用深度学习课程，注重实战能力培养</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-green-600 shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-trophy"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Kaggle</h4>
+                                <p class="text-gray-600">实践项目与竞赛平台，通过实战提升技能</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 开发工具与框架 -->
+                <div class="bg-gradient-to-br from-accent/5 to-primary/5 rounded-xl p-6 border border-gray-100">
+                    <div class="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6">
+                        <i class="fa fa-code text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6">开发工具与框架</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-primary shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-code"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Python</h4>
+                                <p class="text-gray-600">AI领域最常用的编程语言，简洁易学</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-orange-500 shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-cube"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">TensorFlow/Keras</h4>
+                                <p class="text-gray-600">Google开发的深度学习框架，用户友好</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-blue-500 shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-cube"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">PyTorch</h4>
+                                <p class="text-gray-600">Facebook开发的深度学习框架，灵活性高</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded bg-white flex items-center justify-center text-green-600 shadow-sm flex-shrink-0 mt-1">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Scikit-learn</h4>
+                                <p class="text-gray-600">Python机器学习库，提供丰富的算法实现</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学习建议 -->
+    <section id="advice" class="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-dark mb-6">学习建议</h2>
+                <p class="text-lg text-gray-600">高效学习AI的实用建议，助您事半功倍</p>
+            </div>
+            <div class="grid md:grid-cols-5 gap-6">
+                <!-- 建议1 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12"></div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                            <i class="fa fa-lightbulb-o text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">保持好奇心</h3>
+                        <p class="text-gray-600">AI领域发展迅速，保持学习热情和好奇心，探索新的技术和应用。</p>
+                    </div>
+                </div>
+                <!-- 建议2 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-secondary/5 rounded-full -mr-12 -mt-12"></div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mb-4">
+                            <i class="fa fa-cogs text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">注重实践</h3>
+                        <p class="text-gray-600">通过实际项目巩固所学知识，动手实践是掌握AI技能的最佳途径。</p>
+                    </div>
+                </div>
+                <!-- 建议3 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-full -mr-12 -mt-12"></div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-4">
+                            <i class="fa fa-stairs text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">循序渐进</h3>
+                        <p class="text-gray-600">不要急于求成，打好基础很重要，按照课程进度稳步学习。</p>
+                    </div>
+                </div>
+                <!-- 建议4 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-full -mr-12 -mt-12"></div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mb-4">
+                            <i class="fa fa-users text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">参与社区</h3>
+                        <p class="text-gray-600">加入AI学习社区，与他人交流分享，共同进步，拓展人脉。</p>
+                    </div>
+                </div>
+                <!-- 建议5 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-orange-50 rounded-full -mr-12 -mt-12"></div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 mb-4">
+                            <i class="fa fa-refresh text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">持续学习</h3>
+                        <p class="text-gray-600">AI技术不断发展，持续学习是关键，保持知识的更新换代。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 号召性用语 -->
+    <section class="py-16 md:py-24 bg-primary text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold mb-6">开始你的AI之旅！</h2>
+            <p class="text-xl opacity-90 mb-10 max-w-3xl mx-auto">
+                无论你是对AI充满好奇的初学者，还是想转行进入AI领域的专业人士，这套课程体系都能帮助你打下坚实的基础，开启你的AI学习之旅。
+            </p>
+            <div class="inline-block bg-white text-primary px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                让我们一起探索人工智能的奇妙世界！
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 flex items-center gap-2 text-2xl font-bold">
+                    <i class="fa fa-robot"></i>
+                    <span>AI-Starter</span>
+                </div>
+                <div class="flex gap-6">
+                    <a href="#intro" class="hover:text-primary transition-colors">
+                        <i class="fa fa-home text-xl"></i>
+                    </a>
+                    <a href="#features" class="hover:text-primary transition-colors">
+                        <i class="fa fa-star text-xl"></i>
+                    </a>
+                    <a href="#curriculum" class="hover:text-primary transition-colors">
+                        <i class="fa fa-book text-xl"></i>
+                    </a>
+                    <a href="#resources" class="hover:text-primary transition-colors">
+                        <i class="fa fa-download text-xl"></i>
+                    </a>
+                    <a href="#advice" class="hover:text-primary transition-colors">
+                        <i class="fa fa-lightbulb-o text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 AI-Starter. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
